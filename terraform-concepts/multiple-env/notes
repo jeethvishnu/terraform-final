@@ -1,0 +1,20 @@
+how to create multiple envs
+
+one of the method by using tfvars we can do
+--------------
+code is same ---> resource def
+
+interview
+---------
+
+--> how many accounts are there in your project
+
+definetly multpile accounts will be there
+
+seperate accounts will be there for dev,qa,prod,etc.
+
+for one env minimum 1 will be there.
+
+default variable valuess to override --> tfvars.
+
+

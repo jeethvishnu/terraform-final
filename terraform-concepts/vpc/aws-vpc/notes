@@ -1,0 +1,118 @@
+VPC (virtual private cloud)
+in old days
+ they have to buy servers.
+ deploy the code in servers
+
+dividing
+-----------
+development --> only dev servers
+testing team --> only QA servers
+production support --> limited access to prod servers
+call center --> just internal apps
+devops --> full access to all servers
+ linux admin --> all servers access
+
+data center
+----------------
+space
+watchman
+network
+logical seperations b/w wach of them
+maintance
+power
+
+VPC: (virtual private cloud)
+------------------------
+        vpc is like a mini data center for a project. Resources created inside vpc are isolated and private to ourself.
+        --> whatever dividing we are doing that all we can do inside vpc.
+
+
+for example lets take a new village
+
+vpc name = village name
+vpc cidr = village pin
+
+subnets = streets
+arch = internet gateways
+
+routes = roads
+
+public and private subnets
+--------------------------
+--> subnets ehich are connected to internet gateways are called public subnets.
+
+--> subnets which are not connected to IG's are private subnets.
+
+route tables and routes:
+------------------
+
+ex : 192.168.1.4 -- IP
+-->we have 32 bits for every IP.
+--> 4 octates we have each carries 8 bits.
+
+max is 2^32 IP addresses possible
+
+10.0.0.0/16 --> first 16 bits are fixed, not allowed to change.
+
+means 10.0 --> fixed
+each octate ranges from - 0 to 255
+
+steps to create VPC
+---------------------
+1. create vpc ,name,etc - 1
+2. create igw - 1
+3. attatch igw to vpc
+4. create subnet - 2
+--> if you rae using db in your db create another private subnet for it and attatch to private route table.
+5. create route table - for frontend 1 db 1 backend 1 and do subnet association.
+6. create routes
+7. attatch route table to subnet
+
+
+*****************
+--> traffic originating from servers --> outbound
+--> traffic to the servers is called inbound traffic
+
+
+NAT Gateway
+---------------
+
+ private servers can't connect to internet or can't accept connections from internet
+
+traffic originating from servers --> outbound
+
+traffic to the servers is called --> inbound
+
+NAT gateway --> public subnet
+
+**how can you enable internet access to private servers.
+-----------------------
+--> we will create nat in public subnets.
+---> we need elastic ip to work with nat
+--> ip should not change we need static ip so we use elastic ip.
+
+this is to enable outbound internet traffic to the private servers.. general use cases fetching the updates, downloading packages from internet
+
+--> we should establish connection between pmo(private) to nat. in private route table,edit routes, select nat gateway. 0.0.0.0/0
+
+
+-->  for db as well same process.
+
+vpc peering
+------------
+
+by default there wont be any connections between two vpcs if we want to connect our instance in one vpc to another instance vpc then we use something called vpc peering.
+
+some conditions to follow: 
+--> CIDR should not be same
+
+--> 2. VPC can be in
+* either same region of same account
+
+* either diff region of same account
+
+* either same region of diff account
+
+* either diff region of diff accounts
+
+--> routes shoul be added to subnets.

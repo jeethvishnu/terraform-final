@@ -1,0 +1,7 @@
+#locals
+#---------
+
+#locals and variables are same referring same key value pairs.
+
+#locals can hold expression just like variable as a key value pairs and use it wherever you want.
+you can use vars inside locals. but you cant vars/locals inside variables.

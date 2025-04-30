@@ -1,0 +1,129 @@
+infrastructure
+---------------------
+
+Infra is very important to create business...
+
+
+Disadvantages of ansible , shell
+1. manually created
+2. takes time
+
+ follow the sequence
+create sg
+ create r53 record
+create ec2
+ we need to check each and every resource and note down manually
+cost analysis
+
+Terraform
+-----------
+Infra as a code
+------------------
+1. version control --> we can maintain different versions of infra. multiple persons can colloborate to create infra
+2. same infra across environments --> DEV, QA, PROD, etc.
+--> working in dev, failed in PROD.
+--> run the same code in different envs that create same infra everywhere.
+
+advantages
+-----------
+--> crud
+inventory - list of resources for this project.
+dependency - these are automatically resolved while crud.
+cost - creation and deletion takes less time so cost can be reduced.
+
+code reuse - 
+    modules ypu can reuse the infra code created multiple times for different projects.
+
+state management --> implicit feature.
+
+Hybrid cloud 
+
+How to start with terraform installation:
+-------------------------------------------
+
+1. download terraform
+2. edit env vars
+3. download aws cli -- used for terraform authentication.
+
+Terraform:
+-----------
+HCL - hashicorp configuration language
+ vars
+ dt
+ conditions
+ functions
+ loops
+ terraform related concepts
+    o/p
+    locals
+    data sources
+    count
+    dynamic blocks
+
+state
+----------
+
+--> terraform is a IAAS its in declarative way. means ehatever we write we will get it.
+
+--> terraform is idempotent also. whatever we declare terraform should create.
+
+--> declared state[terraform files] == actual state[terraform inside provider i.e AWS]
+
+I ran, terraform created infrastructure
+
+I ran once again, How terraform will understand what infra it is already created?
+
+terraform.tfstate is the file that terraform tracks the actual infra
+
+if deleted manually in aws. but in terraform.tf file state it exists.
+
+terraform.tfstate:
+    it can track what happend to the infra.
+
+declared state:
+    tf files user created thats ehat the user wants
+
+actual state:
+    what is the actual infra is there inside the provider.
+
+refresh
+    it wil check whether the existing state is ther or not.
+
+
+remote state:
+--------------
+
+--> remote state through s3
+
+--> locking file through dynamo db.
+
+ remote state
+
+ duplicate resources or errors, locking
+
+ 1 person is creating infra through terraform, can we ask other person also do same thing?
+ 5min..
+
+ there should be some locking mechanism, when one person is creating infra. it should be locked until it is completed
+
+.lock file --> means someone opened, others are not allowed to edit
+
+--> means if we are changing something in our imp file then it will create .lock file to protect it from changes from other usr. it will protect with scenario at a time two persons should not create the infra.
+
+local vs remote state
+--------------------
+disadvatage
+--------------
+
+1. there is a chance you delete a file or edit it.
+2. it will not work in colloboration env.
+3. there is a chace multiple persons apply/edit the infra.
+
+in centralised repos we can keep.
+
+remote state
+--------------
+
+if you keep the state in local theres a chance for duplicates or errors and theres no locking mechanism also. we need to use a remote repo while we aer in a collaboration so that one person is creating infra for other it will be locked.
+
+--> WE CAN KEEP THIS REMOTE STATE IN AWS S3 BUCKET.

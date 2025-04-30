@@ -1,0 +1,12 @@
+data source
+-------------
+means if any change came in ami ids so the ids will change in a period of time instead of takin it manually we can use this concept.
+
+going to console searching it and then using it..
+
+quering and filtering aws
+means in amazon after searching something we have filters right for brands,rates etc
+
+in terraform we have AWS creds.
+
+so it can query and fetch teh ami_id automatically.

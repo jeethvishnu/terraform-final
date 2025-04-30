@@ -1,0 +1,12 @@
+Stateful vs Stateless
+
+*State == Storage
+
+**MySQL data is stored== Stateful application
+**Backend no storage for backend== Stateless application
+
+**Frontend no storage for frontend == Stateless application.
+**very difficult to retreive data from Stateful application.
+
+**easy to restore backend applications because of no state.
+

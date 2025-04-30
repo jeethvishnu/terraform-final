@@ -1,0 +1,8 @@
+terraform plan -var="instance_type=t3.medium" --> if we want to pass tfvars from command  line this is the cmd.
+  
+--> always first prefernce will be given to cmd line
+--> second prefernce to .tfvars file
+--> third ENV <var></var>.
+--> var default value
+
+

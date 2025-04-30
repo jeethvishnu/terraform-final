@@ -1,0 +1,6 @@
+snapshot:
+----------
+
+when you delete RDS, it will automatically stapshot for safety before delete.
+snapshot is attached to VPC.
+ You cant delete VPC, because it has the dependency resource of snapshot
