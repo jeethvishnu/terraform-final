@@ -1,6 +1,6 @@
 #suppose if db team started ro develop db so they need sg for db so we are keeping in the ssm parameter. thats the usage of this
 resource "aws_ssm_parameter" "db_sg_id" {
-    name = "/${var.project}-${var.env}/db_sg_id"
+    name = "/${var.project}/${var.env}/db_sg_id"
     type = "String"
     value = module.db.sg_id
   
