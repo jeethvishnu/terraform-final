@@ -1,0 +1,1 @@
+for i in 01-vpc/02-sg/03-bastion/04-db/ ; do cd $i ; terraform apply -auto-approve; cd .. ; done
