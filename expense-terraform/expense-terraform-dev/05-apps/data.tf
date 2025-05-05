@@ -1,13 +1,13 @@
 data "aws_ssm_parameter" "backend_sg_id" {
-  name = "/${var.project}/${var.env}/backend_sg_id"
+  name = "/${var.project}-${var.env}/backend_sg_id"
 }
 
 data "aws_ssm_parameter" "frontend_sg_id" {
-  name = "/${var.project}/${var.env}/frontend_sg_id"
+  name = "/${var.project}-${var.env}/frontend_sg_id"
 }
 
 data "aws_ssm_parameter" "ansible_sg_id" {
-  name = "/${var.project}/${var.env}/ansible_sg_id"
+  name = "/${var.project}-${var.env}/ansible_sg_id"
 }
 
 data "aws_ssm_parameter" "private_subnet_ids" {
