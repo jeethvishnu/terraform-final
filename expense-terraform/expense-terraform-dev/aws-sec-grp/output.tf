@@ -3,3 +3,9 @@ output "sg_id" {
     value = aws_security_group.allow_tls.id
   
 }
+
+output "db_sg_id" {
+    value = aws_ssm_parameter.bastion_sg_id.id
+  
+}
+
