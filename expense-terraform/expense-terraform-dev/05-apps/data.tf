@@ -19,6 +19,11 @@ data "aws_ssm_parameter" "ansible_subnet_ids" {
   name = "/${var.project}/${var.env}/ansible_subnet_ids"
 }
 
+data "aws_ssm_parameter" "ansible_sg_id" {
+  name = "/${var.project}/${var.env}/ansible_sg_id"
+  
+}
+
 
 #this is taken from terraform folder datasource for ami
 
