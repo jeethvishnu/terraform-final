@@ -4,8 +4,3 @@ output "sg_id" {
   
 }
 
-output "db_sg_id" {
-    value = aws_ssm_parameter.bastion_sg_id.id
-  
-}
-
