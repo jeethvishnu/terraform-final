@@ -12,7 +12,7 @@ resource "aws_ssm_parameter" "vpc_id" {
 #this is for pub subnet
 #if we are writing here means previously we need to declare them in our module outputs. then only it wull catch
 resource "aws_ssm_parameter" "public_subnet_ids" {
-  name  = "/${var.project}/${var.env}/pubic_subnet_ids"
+  name  = "/${var.project}/${var.env}/public_subnet_ids"
   type  = "StringList"
   value = join("," ,module.vpc.public_subnet_ids) #converting lst to strlst using join func
 }
