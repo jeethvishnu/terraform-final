@@ -1,5 +1,3 @@
-#backend
-
 module "backend" {
   source  = "terraform-aws-modules/ec2-instance/aws"
 
@@ -7,20 +5,16 @@ module "backend" {
 
   instance_type          = "t3.micro"
   vpc_security_group_ids = [data.aws_ssm_parameter.backend_sg_id.value]
-  #convert string lst to lst and get first element
-  subnet_id              = local.private_subnet_id
-  ami    = data.aws_ami.ami_info.id
-  
-
+  # convert StringList to list and get first element
+  subnet_id = local.private_subnet_id
+  ami = data.aws_ami.ami_info.id
   tags = merge(
     var.common_tags,
     {
-      Name: "${var.project}-${var.env}-backend"
+        Name = "${var.project}-${var.env}-backend"
     }
   )
 }
-
-#frontend
 
 module "frontend" {
   source  = "terraform-aws-modules/ec2-instance/aws"
@@ -29,20 +23,17 @@ module "frontend" {
 
   instance_type          = "t3.micro"
   vpc_security_group_ids = [data.aws_ssm_parameter.frontend_sg_id.value]
-  #convert string lst to lst and get first element
-  subnet_id              = local.public_subnet_id
-  ami    = data.aws_ami.ami_info.id
-  
-
+  # convert StringList to list and get first element
+  subnet_id = local.public_subnet_id
+  ami = data.aws_ami.ami_info.id
   tags = merge(
     var.common_tags,
     {
-      Name: "${var.project}-${var.env}-frontend"
+        Name = "${var.project}-${var.env}-frontend"
     }
   )
 }
 
-#ansible
 module "ansible" {
   source  = "terraform-aws-modules/ec2-instance/aws"
 
@@ -50,16 +41,14 @@ module "ansible" {
 
   instance_type          = "t3.micro"
   vpc_security_group_ids = [data.aws_ssm_parameter.ansible_sg_id.value]
-  #convert string lst to lst and get first element
-  subnet_id              = local.public_subnet_id
-  ami    = data.aws_ami.ami_info.id
+  # convert StringList to list and get first element
+  subnet_id = local.public_subnet_id
+  ami = data.aws_ami.ami_info.id
   user_data = file("expense.sh")
-  
-
   tags = merge(
     var.common_tags,
     {
-      Name: "${var.project}-${var.env}-ansible"
+        Name = "${var.project}-${var.env}-ansible"
     }
   )
   depends_on = [ module.backend,module.frontend ]
@@ -67,36 +56,35 @@ module "ansible" {
 
 module "records" {
   source  = "terraform-aws-modules/route53/aws//modules/records"
-  version = "~> 3.0"
+  version = "~> 2.0"
 
   zone_name = var.zone_name
 
   records = [
     {
       name    = "backend"
-      type    = "CNAME"
-      ttl = 1
-      records  = [
+      type    = "A"
+      ttl     = 1
+      records = [
         module.backend.private_ip
       ]
-    
     },
-
     {
       name    = "frontend"
       type    = "A"
       ttl     = 1
       records = [
-        module.frontend.private_ip,
+        module.frontend.private_ip
       ]
     },
-      {
-      name    = "" #vjeeth.site
+    {
+      name    = "" #daws78s.online
       type    = "A"
       ttl     = 1
       records = [
-        module.frontend.public_ip,
+        module.frontend.public_ip
       ]
     },
   ]
-}                                                                                                                                                                                                                                       
+
+}
