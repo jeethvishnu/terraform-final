@@ -1,7 +1,7 @@
 #security group for db
 
 module "db" {
-    source = "../aws-sec-grp"
+    source = "../../expense-terraform/expense-terraform-dev/aws-sec-grp"
     project = var.project
     env = var.env
     sg_decsript = var.db_sg_descr
@@ -13,7 +13,7 @@ module "db" {
 
 #security grp for backend
 module "backend" {
-    source = "../aws-sec-grp"
+    source = "../../expense-terraform/expense-terraform-dev/aws-sec-grp"
     project = var.project
     env = var.env
     sg_decsript = "sg for backend"
@@ -25,7 +25,7 @@ module "backend" {
 
 #security grp for frontend
 module "frontend" {
-    source = "../aws-sec-grp"
+    source = "../../expense-terraform/expense-terraform-dev/aws-sec-grp"
     project = var.project
     env = var.env
     sg_decsript = "sg for frontend"
@@ -37,7 +37,7 @@ module "frontend" {
 
 #bastion
 module "bastion" {
-    source = "../aws-sec-grp"
+    source = "../../expense-terraform/expense-terraform-dev/aws-sec-grp"
     project = var.project
     env = var.env
     sg_decsript = "sg for bastion"
@@ -49,7 +49,7 @@ module "bastion" {
 
 #app_alb
 module "alb" {
-    source = "../aws-sec-grp"
+    source = "../../expense-terraform/expense-terraform-dev/aws-sec-grp"
     project = var.project
     env = var.env
     sg_decsript = "sg for alb"
@@ -60,14 +60,13 @@ module "alb" {
 }
 #vpn
 module "vpn" {
-    source = "../aws-sec-grp"
+    source ="../../expense-terraform/expense-terraform-dev/aws-sec-grp"
     project = var.project
     env = var.env
     sg_decsript = "sg for vpn"
     vpc_id = data.aws_ssm_parameter.vpc_id.value
     common_tags = var.common_tags
     sg_name = "vpn"
-    ingress_rules = var.vpn_sg_rules
   
 }
 
