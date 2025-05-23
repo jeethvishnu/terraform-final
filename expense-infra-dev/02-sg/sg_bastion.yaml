@@ -1,0 +1,65 @@
+- name: sg rules
+  sg:
+  - expense-dev-db
+  - expense-dev-backend
+  - expense-dev-frontend
+  - expense-dev-bastion
+  - expense-dev-app-alb #backend
+  - expense-dev-vpv
+  expense-dev-vpn:
+  - name: vpn_public
+    decs: vpn accepting from public
+    source: public
+    port: 943,443,22,1194
+  db:
+  - name: db_backend
+    decs: db accepting connections from backend
+    source: backend
+    port: 3306
+  - name: db_bastion
+    desc: db accepting from bastion
+    source: bastion
+    port: 3306
+  - name: db_vpn
+    decs: db accepting from vpn
+    source: vpn
+    port: 3306
+  app-alb:
+  - name: app-alb_vpn
+    decs: app-alb accepting connections from vpn
+    source: vpn
+    port: 80
+
+    #no more accepting from frontend, now on backend will accept from alb.
+  backend:
+  - name: backend_app-alb
+    desc: backend accepting from alb
+    source: app-alb
+    port: 8080
+  - name: backend_bastion
+    desc: backend accepting from bastion
+    source: bastion
+    port: 22
+  - name: backend_vpn_ssh
+    decs: backend accepting from vpn
+    source: vpn
+    port: 22
+  - name: backend_vpn_http
+    decs: backend accepting from http
+    source: http
+    port: 8080
+  frontend:
+  - name: frontend_public
+    desc: frontend accepting from public
+    source: public
+    port: 80
+  - name: frontend_bastion
+    desc: fronetnd accepting from bastion
+    source: bastion
+    port: 22
+  bastion:
+  - name: bastion_public
+    desc: bastion accepting from public
+    source: public
+    port: 22 #idealy your home address/32
+  

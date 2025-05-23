@@ -1,0 +1,29 @@
+4 deployment
+5
+6 PROCESS-1
+7
+8 stop the server
+9 remove old code
+10 download new code
+11 restart the server
+12
+13 there is downtime, if 1 server easy to do..
+14
+15 get all the server IP address
+16 give it to ansible
+17 ansible can connect to all the servers one by one and complete the deployment process...
+18
+19
+20 PROCESS-2
+21
+22 business going on
+23
+24 create one new instance
+25 use ansible to configure
+26 stop the server
+27 take AMI of the server
+29 total 3 servers
+30 1. create one new server, delete one old server
+31
+2. create 2nd new server, delete 2nd old server
+32 3. create 3rd new server, delete 3rd old server

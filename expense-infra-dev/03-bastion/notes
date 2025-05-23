@@ -1,0 +1,7 @@
+Bastion/Jump Host
+
+We will create one EC2 instance in public subnet, Bastion host
+Allow backend servers and DB servers to connect from bastion host
+ user --> bastion Nost --> RDS, Backend servers
+ Public--> PR officer --> PMO office
+ 
