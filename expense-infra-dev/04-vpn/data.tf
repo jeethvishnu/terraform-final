@@ -3,7 +3,7 @@ data "aws_ssm_parameter" "public_subnet_ids" {
 }
 
 data "aws_ssm_parameter" "vpn_sg_id" {
-  name = "/${var.project}/${var.env}/vpn_sg_id"
+  name = "/${var.project}-${var.env}/vpn_sg_id"
   
 }
 #this is taken from terraform folder datasource for ami
