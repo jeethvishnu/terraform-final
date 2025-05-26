@@ -1,11 +1,11 @@
-data "aws_ssm_parameter" "bastion_sg_id" {
-  name = "/${var.project}/${var.env}/bastion_sg_id"
-}
-
 data "aws_ssm_parameter" "public_subnet_ids" {
   name = "/${var.project}/${var.env}/public_subnet_ids"
 }
 
+data "aws_ssm_parameter" "vpn_sg_id" {
+  name = "/${var.project}/${var.env}/vpn_sg_id"
+  
+}
 #this is taken from terraform folder datasource for ami
 
 data "aws_ami" "ami_info" {
@@ -15,7 +15,7 @@ data "aws_ami" "ami_info" {
 
   filter {
     name   = "name"
-    values = ["OpenVPN Access Server Community Image-fe8020db"]
+    values = ["OpenVPN Access Server Community Image-fe8020db-*"]
   }
 
   filter {
