@@ -50,7 +50,7 @@ module "records" {
 
   records = [
     {
-      name    = "*.app-${var.env}"
+      name    = "*.alb-${var.env}"
       type    = "A"
       allow_overwrite = true
       alias = {
