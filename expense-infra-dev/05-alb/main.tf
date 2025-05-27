@@ -1,10 +1,11 @@
-#lb
+#alb
 resource "aws_lb" "alb" {
   name               = "${var.project}-${var.env}-alb"
+  #private alb so keep true
   internal           = true
   load_balancer_type = "application"
   security_groups    = [data.aws_ssm_parameter.alb-sg_id.value]
-  subnets            =  split(",",data.aws_ssm_parameter.private_subnet_ids.value)
+  subnets            =  split(",",data.aws_ssm_parameter.private_subnet_ids.value) #create in private subnet, for alb min 2 subnets
 
   enable_deletion_protection = false
 
