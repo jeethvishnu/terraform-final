@@ -15,6 +15,7 @@ module "vpn" {
   #convert string lst to lst and get first element
   subnet_id              = local.public_subnet_id
   ami    = data.aws_ami.ami_info.id
+  associate_public_ip_address = true
   
 
   tags = merge(
