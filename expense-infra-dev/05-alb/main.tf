@@ -24,9 +24,9 @@ resource "aws_lb" "alb" {
 
 resource "aws_lb_listener" "http" {
     #we are attatching our lb under lb arn
-  load_balancer_arn = aws_lb.alb.arn
+  load_balancer_arn = aws_lb.alb.arn #replace with your lb name
   port              = "80"
-  protocol          = "HTTP"
+  protocol          = "HTTP" #for http no need of certifications
 
   default_action {
     type = "fixed-response"
