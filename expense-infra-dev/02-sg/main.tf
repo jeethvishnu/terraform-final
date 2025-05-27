@@ -152,6 +152,17 @@ resource "aws_security_group_rule" "frontend_public" {
   security_group_id = module.frontend.sg_id 
 }
 
+#frontend from vpn
+resource "aws_security_group_rule" "frontend_vpn" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  source_security_group_id =module.vpn.sg_id #its dynamic source is from where you are getting  traffic
+  security_group_id = module.frontend.sg_id 
+}
+
+
 #frontend to bastion
 resource "aws_security_group_rule" "frontend_bastion" {
   type              = "ingress"
@@ -159,6 +170,17 @@ resource "aws_security_group_rule" "frontend_bastion" {
   to_port           = 22  
   protocol          = "tcp"
   source_security_group_id =module.bastion.sg_id #its dynamic source is from where you are getting  traffic
+  security_group_id = module.frontend.sg_id 
+}
+
+#frontend from web alb
+
+resource "aws_security_group_rule" "frontend_web-alb" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80  
+  protocol          = "tcp"
+  source_security_group_id =module.web-alb.sg_id #its dynamic source is from where you are getting  traffic
   security_group_id = module.frontend.sg_id 
 }
 
@@ -182,3 +204,20 @@ resource "aws_security_group_rule" "alb_vpn" {
   security_group_id = module.alb.sg_id 
 }
 
+resource "aws_security_group_rule" "alb_bastion" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  source_security_group_id =module.bastion.sg_id #its dynamic source is from where you are getting  traffic
+  security_group_id = module.alb.sg_id 
+}
+
+resource "aws_security_group_rule" "alb_frontend" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  source_security_group_id =module.frontend.sg_id #its dynamic source is from where you are getting  traffic
+  security_group_id = module.alb.sg_id 
+}
