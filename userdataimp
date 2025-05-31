@@ -1,0 +1,17 @@
+ userdata
+ ----------
+
+once ec2 instance created, aws will run userdata script.
+
+10 1. we have to login inside instance and check the logs,
+11 2. once userdata is changed, AWS will not update EC2
+12
+13
+delete EC2 manually and run terrafrom again
+
+remote provisooner
+-------------------
+
+execute the script in remote servers by using null resources.
+
+
