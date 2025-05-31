@@ -175,14 +175,14 @@ resource "aws_security_group_rule" "frontend_bastion" {
 
 #frontend from web alb
 
-resource "aws_security_group_rule" "frontend_web-alb" {
-  type              = "ingress"
-  from_port         = 80
-  to_port           = 80  
-  protocol          = "tcp"
-  source_security_group_id =module.web-alb.sg_id #its dynamic source is from where you are getting  traffic
-  security_group_id = module.frontend.sg_id 
-}
+# resource "aws_security_group_rule" "frontend_web-alb" {
+#   type              = "ingress"
+#   from_port         = 80
+#   to_port           = 80  
+#   protocol          = "tcp"
+#   source_security_group_id =module.web-alb.sg_id #its dynamic source is from where you are getting  traffic
+#   security_group_id = module.frontend.sg_id 
+# }
 
 
 #bastion to public
