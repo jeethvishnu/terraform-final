@@ -67,7 +67,8 @@ module "vpn" {
     vpc_id = data.aws_ssm_parameter.vpc_id.value
     common_tags = var.common_tags
     sg_name = "vpn"
-    inbound_rules = var.vpn_sg_rules
+    ingress_rules = var.vpn_sg_rules
+    
     
   
 }
