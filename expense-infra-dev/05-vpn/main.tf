@@ -1,5 +1,5 @@
 resource "aws_key_pair" "vpn" {
-    key_name = "openvpn"
+    key_name = "vpn"
     #can paste the pub key directly
     public_key = file("~/.ssh/openvpn.pub")
   
