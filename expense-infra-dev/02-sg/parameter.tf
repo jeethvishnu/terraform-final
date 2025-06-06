@@ -41,3 +41,11 @@ resource "aws_ssm_parameter" "alb_sg_id" {
     value = module.alb.sg_id
   
 }
+
+resource "aws_ssm_parameter" "web_alb" {
+    name = "/${var.project}-${var.env}/web_alb"
+    type = "String"
+    value = module.web_alb.sg_id
+  
+}
+

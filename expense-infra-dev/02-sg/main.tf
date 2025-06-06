@@ -71,6 +71,18 @@ module "vpn" {
   
 }
 
+#frontend alb
+
+module "web_alb" {
+    source ="../../expense-terraform/expense-terraform-dev/aws-sec-grp"
+    project = var.project
+    env = var.env
+    sg_decsript = "sg for frontend"
+    vpc_id = data.aws_ssm_parameter.vpc_id.value
+    common_tags = var.common_tags
+    sg_name = "web_alb"
+  
+}
 
 
 #rules for sg inbound rules
@@ -156,8 +168,8 @@ resource "aws_security_group_rule" "frontend_public" {
 #frontend from vpn
 resource "aws_security_group_rule" "frontend_vpn" {
   type              = "ingress"
-  from_port         = 80
-  to_port           = 80
+  from_port         = 22
+  to_port           = 22
   protocol          = "tcp"
   source_security_group_id =module.vpn.sg_id #its dynamic source is from where you are getting  traffic
   security_group_id = module.frontend.sg_id 
@@ -174,16 +186,34 @@ resource "aws_security_group_rule" "frontend_bastion" {
   security_group_id = module.frontend.sg_id 
 }
 
-#frontend from web alb
+# frontend from web alb
 
-# resource "aws_security_group_rule" "frontend_web-alb" {
-#   type              = "ingress"
-#   from_port         = 80
-#   to_port           = 80  
-#   protocol          = "tcp"
-#   source_security_group_id =module.web-alb.sg_id #its dynamic source is from where you are getting  traffic
-#   security_group_id = module.frontend.sg_id 
-# }
+resource "aws_security_group_rule" "frontend_web_alb" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  source_security_group_id =module.web_alb.sg_id #its dynamic source is from where you are getting  traffic
+  security_group_id = module.frontend.sg_id 
+}
+
+resource "aws_security_group_rule" "web_alb_public" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80  
+  protocol          = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = module.web_alb.sg_id 
+}
+
+resource "aws_security_group_rule" "web_alb_public_https" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443 
+  protocol          = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = module.web_alb.sg_id 
+}
 
 
 #bastion to public
@@ -222,3 +252,5 @@ resource "aws_security_group_rule" "alb_frontend" {
   source_security_group_id =module.frontend.sg_id #its dynamic source is from where you are getting  traffic
   security_group_id = module.alb.sg_id 
 }
+
+

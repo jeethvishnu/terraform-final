@@ -68,7 +68,7 @@ resource "aws_ami_from_instance" "backend" {
 
 #delete ec2
 
-resource "null_resource" "backend" {
+resource "null_resource" "backend_delete" {
   # Changes to any instance of the cluster requires re-provisioning
   triggers = {
    instance_id = module.backend.id #this  willbe triggered everytime when instance is created
@@ -85,6 +85,7 @@ resource "null_resource" "backend" {
         command = "aws ec2 terminate-instances --instance-ids ${module.backend.id}"
         
       }
+      depends_on = [ aws_ami_from_instance.backend ]
 
      
         
@@ -151,6 +152,8 @@ resource "aws_autoscaling_group" "backend" {
   health_check_grace_period = 60
   health_check_type         = "ELB"
   desired_capacity          = 1
+  #here we should give target grp parameter inorder to add to specific tgrp
+  target_group_arns = [aws_lb_target_group.backend.arn]
     launch_template {
     id      = aws_launch_template.backend.id
     version = "$Latest"
@@ -207,13 +210,14 @@ resource "aws_autoscaling_policy" "backend" {
 
 resource "aws_lb_listener_rule" "backend" {
   listener_arn = data.aws_ssm_parameter.alb_listener_arn.value
-  priority     = 100
+  priority     = 100 #less number will be first validated.
 
   action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.backend.arn
   }
 
+#host path
   condition {
     host_header {
       values = ["backend.app-${var.env}.${var.zone_name}"]
