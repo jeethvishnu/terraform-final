@@ -1,7 +1,7 @@
 resource "aws_key_pair" "vpn" {
     key_name = "openvpn"
     #can paste the pub key directly
-    public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINpNO5tMS+eklH/ZbnczeCkKzkBBK1eWEZk+gr6XyEus jeeth@vishnu"
+    public_key = file("~/.ssh/openvpn.pub")
   
 }
 
@@ -15,7 +15,7 @@ module "vpn" {
   #convert string lst to lst and get first element
   subnet_id              = local.public_subnet_id
   ami    = data.aws_ami.ami_info.id
-  associate_public_ip_address = true
+  
   
 
   tags = merge(
