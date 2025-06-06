@@ -68,6 +68,7 @@ module "vpn" {
     common_tags = var.common_tags
     sg_name = "vpn"
     inbound_rules = var.vpn_sg_rules
+    
   
 }
 
