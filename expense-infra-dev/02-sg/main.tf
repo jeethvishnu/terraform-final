@@ -68,6 +68,7 @@ module "vpn" {
     common_tags = var.common_tags
     sg_name = "vpn"
     ingress_rules =  var.vpn_sg_rules
+    outbound_rules = var.vpn_sg_rules
 }
 
 #frontend alb
