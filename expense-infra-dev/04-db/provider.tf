@@ -9,7 +9,7 @@ terraform {
     bucket = "vjeeth-dev1"
     key    = "infra-db"
     region = "us-east-1"
-    dynamodb_table = "dev-table"  # we will use for s3 locking file this table should be there
+    dynamodb_table = "terraform-lock"  # we will use for s3 locking file this table should be there
   }
 }
 
