@@ -1,0 +1,39 @@
+pipeline {
+    agent {
+        label 'agent-1'
+    } 
+      options {
+        timeout(time: 5, unit: 'MINUTES')
+        disableConcurrentBuilds() 
+    }
+     
+stages {
+    stage ('build') {
+        steps {
+            sh 'echo building'
+            sh 'env'
+        }
+    }
+    stage ('test') {
+        steps {
+            sh 'echo testing'
+        }
+    }
+    stage ('deploy') {
+        steps {
+            sh 'echo deploying'
+        }
+    }
+        }
+}
+  post { 
+        always { 
+            echo 'I will always say Hello again!'
+        }
+        success {
+            echo 'will run if it is success'
+        }
+        failure {
+            echo 'will run when it is failed'
+        }
+    }

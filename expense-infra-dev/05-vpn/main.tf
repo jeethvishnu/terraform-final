@@ -11,6 +11,7 @@ module "vpn" {
   associate_public_ip_address = true
   
   
+  
 
   tags = merge(
     var.common_tags,
