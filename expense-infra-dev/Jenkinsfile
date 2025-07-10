@@ -36,6 +36,6 @@ stages {
             echo 'will run if it is success'
         }
         failure {
-            echo 'will run when it is failed'
+            echo 'will run when it is faileded'
         }
     }
