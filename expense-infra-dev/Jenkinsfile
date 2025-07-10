@@ -8,10 +8,11 @@ pipeline {
     }
      
 stages {
-    stage ('build') {
+    stage ('init') {
         steps {
-            sh 'echo building'
-            sh 'env'
+            """
+            ls -ltr
+            """
         }
     }
     stage ('test') {
