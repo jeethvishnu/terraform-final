@@ -9,38 +9,61 @@ pipeline {
         ansiColor('xterm')
     }
 
+    parameters {
+        choice(name: 'actions', choices: ['apply', 'destroy'], description: 'Pick something')
+    }
+
     stages {
         stage('init') {
             steps {
-                sh """
+                sh '''
                     cd expense-infra-dev
                     cd 01-vpc
                     terraform init -reconfigure
-                """
+                '''
             }
         }
 
-        stage('test') {
+        stage('plan') {
+            when {
+                expression { params.actions == 'apply' }
+            }
             steps {
-                 sh """
+                sh '''
                     cd expense-infra-dev
                     cd 01-vpc
                     terraform plan
-                """
+                '''
             }
         }
 
         stage('deploy') {
-              input {
+            when {
+                expression { params.actions == 'apply' }
+            }
+            input {
                 message "Should we continue?"
                 ok "Yes, we should."
             }
             steps {
-                 sh """
+                sh '''
                     cd expense-infra-dev
                     cd 01-vpc
                     terraform apply -auto-approve
-                """
+                '''
+            }
+        }
+
+        stage('destroy') {
+            when {
+                expression { params.actions == 'destroy' }
+            }
+            steps {
+                sh '''
+                    cd expense-infra-dev
+                    cd 01-vpc
+                    terraform destroy -auto-approve
+                '''
             }
         }
     }
@@ -51,10 +74,10 @@ pipeline {
             deleteDir()
         }
         success {
-            echo 'will run if it is success'
+            echo 'Will run if it is successful'
         }
         failure {
-            echo 'will run when it is failed'
+            echo 'Will run when it has failed'
         }
     }
 }
