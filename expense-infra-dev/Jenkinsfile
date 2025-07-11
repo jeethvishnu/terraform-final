@@ -13,7 +13,8 @@ pipeline {
             steps {
                 sh """
                     cd expense-infra-dev
-                    ls -ltr
+                    cd 01-vpc
+                    terraform init -reconfigure
                 """
             }
         }
