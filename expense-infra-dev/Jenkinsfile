@@ -22,13 +22,25 @@ pipeline {
 
         stage('test') {
             steps {
-                sh 'echo testing'
+                 sh """
+                    cd expense-infra-dev
+                    cd 01-vpc
+                    terraform plan
+                """
             }
         }
 
         stage('deploy') {
+              input {
+                message "Should we continue?"
+                ok "Yes, we should."
+            }
             steps {
-                sh 'echo deploying'
+                 sh """
+                    cd expense-infra-dev
+                    cd 01-vpc
+                    terraform apply -auto-approve
+                """
             }
         }
     }
@@ -36,6 +48,7 @@ pipeline {
     post {
         always {
             echo 'I will always say Hello again!'
+            deleteDir()
         }
         success {
             echo 'will run if it is success'
