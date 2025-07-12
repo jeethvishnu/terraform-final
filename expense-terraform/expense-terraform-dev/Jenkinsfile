@@ -23,7 +23,10 @@ pipeline {
         stage('plan') {
             steps {
                 sh '''
-                    echo plan stage
+                    cd expense-terraform
+                    cd expense-terraform-dev
+                    cd 01-vpc
+                    terraform plan
                 '''
             }
         }
