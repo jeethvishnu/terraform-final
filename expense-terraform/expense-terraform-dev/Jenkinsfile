@@ -15,7 +15,8 @@ pipeline {
                 sh '''
                     cd expense-terraform
                     cd expense-terraform-dev
-                    ls -ltr
+                    cd 01-vpc
+                    terraform init -reconfigure
                 '''
             }
         }
@@ -27,6 +28,10 @@ pipeline {
             }
         }
         stage('deploy') {
+            input {
+                message "Should we continue?"
+                ok "Yes, we should."
+            }
             steps {
                 sh '''
                     echo deploy stage
