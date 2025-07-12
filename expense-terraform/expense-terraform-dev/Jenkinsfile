@@ -1,0 +1,50 @@
+pipeline {
+    agent {
+        label 'agent-11'
+    }
+
+    options {
+        timeout(time:15, unit:'MINUTES')
+        disableConcurrentBuilds()
+        ansiColor('xterm')
+    }
+
+    stages {
+        stage('init') {
+            steps {
+                sh '''
+                    cd expense-terraform
+                    cd expense-terraform-dev
+                    ls -ltr
+                '''
+            }
+        }
+        stage('plan') {
+            steps {
+                sh '''
+                    echo plan stage
+                '''
+            }
+        }
+        stage('deploy') {
+            steps {
+                sh '''
+                    echo deploy stage
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'will run if success'
+        }
+        always {
+            echo 'will run always'
+            deleteDir()
+        }
+        failure {
+            echo 'will run if failed'
+        }
+    }
+}
