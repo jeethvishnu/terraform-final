@@ -6,26 +6,23 @@ pipeline {
     options {
         timeout(time:11, unit:'MINUTES')
         ansiColor('xterm')
-        disableConcurrentBuilds()
     }
 
     stages {
-        stage ('init') {
+        stage('init') {
             steps {
                 sh '''
-                    echo hi
+                    echo initialsing
                 '''
             }
         }
-
-        stage('plan') {
+        stage('build') {
             steps {
                 sh '''
-                    echo plan
+                    echo building
                 '''
             }
         }
-
         stage('deploy') {
             steps {
                 sh '''
@@ -37,10 +34,11 @@ pipeline {
 
     post {
         always {
-            echo 'will run everytime'
+            echo ' will run always'
         }
+
         success {
-            echo 'will run if it is success'
+            echo ' will run when its success'
         }
     }
 

@@ -3,3 +3,4 @@ jenkins useful plugins
 ** plugins **
 - pipeline stage view
 - ansi color
+- pipeline utility steps
