@@ -1,46 +1,61 @@
 pipeline {
     agent {
-        label 'agent-22'
+        label 'agent-33'
     }
 
     options {
         timeout(time:11, unit:'MINUTES')
+        disableConcurrentBuilds()
         ansiColor('xterm')
-    }
 
-    stages {
-        stage('init') {
-            steps {
-                sh '''
-                    echo initialsing
-                '''
+}
+
+environment {
+    appVersion = ''
+}
+
+stages {
+    stage ('read version') {
+        steps {
+            script {
+                def jsonData = readJSON file: 'package.json'
+                appVersion = jsonData.version
+                echo "versionNumber: $appVersion"
             }
-        }
-        stage('build') {
-            steps {
-                sh '''
-                    echo building
-                '''
-            }
-        }
-        stage('deploy') {
-            steps {
-                sh '''
-                    echo deploying
-                '''
-            }
+            
         }
     }
-
-    post {
-        always {
-            echo ' will run always'
-        }
-
-        success {
-            echo ' will run when its success'
+    stage('install dependencies') {
+        steps {
+            sh '''
+                npm install
+                ls -ltr
+                echo "versionNumber: $appVersion"
+            '''
         }
     }
 
+    stage('build') {
+        steps {
+            sh '''
+                zip -q -r backend-${appVersion}.zip * -x Jenkinsfile -x backend-${appVersion}.zip
+                ls -ltr
+            '''
+        }
+    }
+}
+
+post {
+    always {
+        echo 'will run always'
+        deleteDir()
+    }
+    success {
+        echo 'will run when it is successful'
+    }
+    failure {
+        echo 'will run when it is failed'
+    }
+}
 }
 

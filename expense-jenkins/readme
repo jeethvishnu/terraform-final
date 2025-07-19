@@ -4,3 +4,6 @@ jenkins useful plugins
 - pipeline stage view
 - ansi color
 - pipeline utility steps
+- nexus artifact uploader
+
+- give aws creds in agent not for root user.
