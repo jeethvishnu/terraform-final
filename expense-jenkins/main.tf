@@ -50,12 +50,12 @@ module "nexus" {
   subnet_id     = "subnet-0c31f5cfaef3e61d2"
   ami = data.aws_ami.nexus_ami.id
   key_name = aws_key_pair.tools.key_name
-  root_block_device = [
-    {
+  root_block_device = {
+    
       volume_type = "gp3"
       volume_size = 30
-    }
-  ]
+      }
+  
 
   tags = {
     Name = "nexus"
