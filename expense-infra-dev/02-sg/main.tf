@@ -155,6 +155,16 @@ resource "aws_security_group_rule" "backend_vpn_http" {
   security_group_id = module.backend.sg_id 
 }
 
+#*********cicd this rule for tools like nexus*********
+resource "aws_security_group_rule" "backend_default_vpc" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks = ["172.31.0.0/16"] #replace with default vpc cidr ipv4
+  security_group_id = module.backend.sg_id 
+}
+
 #frontend accepting from internet
 resource "aws_security_group_rule" "frontend_public" {
   type              = "ingress"
@@ -253,4 +263,12 @@ resource "aws_security_group_rule" "alb_frontend" {
   security_group_id = module.alb.sg_id 
 }
 
-
+#*********cicd this rule for tools like nexus*********
+resource "aws_security_group_rule" "frontend_default_vpc" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks = ["172.31.0.0/16"] #replace with default vpc cidr ipv4
+  security_group_id = module.frontend.sg_id 
+}
