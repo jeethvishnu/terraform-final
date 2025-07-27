@@ -1,5 +1,5 @@
 data "aws_ssm_parameter" "backend_sg_id" {
-  name = "/${var.project}/${var.env}/backend_sg_id"
+  name = "/${var.project}-${var.env}/backend_sg_id"
 }
 
 data "aws_ssm_parameter" "private_subnet_ids" {
@@ -7,11 +7,11 @@ data "aws_ssm_parameter" "private_subnet_ids" {
 }
 
 data "aws_ssm_parameter" "vpc_id" {
-  name = "/${var.project}/${var.env}vpc_ids"
+  name = "/${var.project}/${var.env}/vpc_id"
 }
 
 data "aws_ssm_parameter" "alb_listener_arn" {
-  name = "/${var.project}/${var.env}alb_listener_arn"
+  name = "/${var.project}/${var.env}/app_alb_listener_arn"
 }
 
 

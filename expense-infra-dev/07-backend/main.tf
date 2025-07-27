@@ -61,7 +61,7 @@ resource "aws_ec2_instance_state" "backend" {
 #take ami
 
 resource "aws_ami_from_instance" "backend" {
-  name               = "${var.project}-${var.env}-${var.common_tags}"
+  name               = "${var.project}-${var.env}-${var.common_tags.Component}"
   source_instance_id = module.backend.id
   depends_on = [ aws_ec2_instance_state.backend ]
 }
@@ -94,7 +94,7 @@ resource "null_resource" "backend_delete" {
 #target grp
 
 resource "aws_lb_target_group" "backend" {
-  name     = "${var.project}-${var.env}-${var.common_tags}"
+  name     = "${var.project}-${var.env}-${var.common_tags.Component}"
   port     = 8080
   protocol = "HTTP"
   vpc_id   = data.aws_ssm_parameter.vpc_id.value
@@ -111,7 +111,7 @@ resource "aws_lb_target_group" "backend" {
 #launch template
 
 resource "aws_launch_template" "backend" {
-  name = "${var.project}-${var.env}-${var.common_tags}"
+  name = "${var.project}-${var.env}-${var.common_tags.Component}"
 
 
   capacity_reservation_specification {
@@ -137,7 +137,7 @@ resource "aws_launch_template" "backend" {
     tags = merge(
       var.common_tags,
       {
-        Name = "${var.project}-${var.env}-${var.common_tags}"
+        Name = "${var.project}-${var.env}-${var.common_tags.Component}"
 
       }
     )
@@ -146,7 +146,7 @@ resource "aws_launch_template" "backend" {
   #auto scalling
 
 resource "aws_autoscaling_group" "backend" {
-  name                      = "${var.project}-${var.env}-${var.common_tags}"
+  name                      = "${var.project}-${var.env}-${var.common_tags.Component}"
   max_size                  = 5
   min_size                  = 1
   health_check_grace_period = 60
@@ -171,7 +171,7 @@ resource "aws_autoscaling_group" "backend" {
 
   tag {
     key                 = "Name"
-    value               = "${var.project}-${var.env}-${var.common_tags}"
+    value               = "${var.project}-${var.env}-${var.common_tags.Component}"
     propagate_at_launch = true
   }
 
@@ -190,7 +190,7 @@ resource "aws_autoscaling_group" "backend" {
 #autoscalling policy
 
 resource "aws_autoscaling_policy" "backend" {
-  name                   = "${var.project}-${var.env}-${var.common_tags}"
+  name                   = "${var.project}-${var.env}-${var.common_tags.Component}"
   policy_type = "TargetTrackingScaling"
   autoscaling_group_name = aws_autoscaling_group.backend.name
 
