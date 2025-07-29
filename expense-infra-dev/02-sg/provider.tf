@@ -7,7 +7,7 @@ terraform {
   }
   backend "s3" {
     bucket = "vjeeth-dev1"
-    key    = "expense-dev-sg"
+    key    = "expense-dev-rules"
     region = "us-east-1"
     dynamodb_table = "terraform-lock"  # we will use for s3 locking file this table should be there
   }
