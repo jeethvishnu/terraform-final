@@ -3,7 +3,7 @@ module "frontend" {
   name = "${var.project}-${var.env}-frontend"
 
   instance_type          = "t3.micro"
-  vpc_security_group_ids = [data.aws_ssm_parameter.frontend_sg_id.value]
+  vpc_security_group_ids = [data.aws_ssm_parameter.allow_all_sg_id.value]
   #convert string lst to lst and get first element
   subnet_id              = local.public_subnet_id
   ami    = data.aws_ami.ami_info.id
@@ -61,7 +61,7 @@ resource "aws_ec2_instance_state" "frontend" {
 #take ami
 
 resource "aws_ami_from_instance" "frontend" {
-  name               = "${var.project}-${var.env}-${var.common_tags}"
+  name               = "${var.project}-${var.env}-${var.common_tags.Component}"
   source_instance_id = module.frontend.id
   depends_on = [ aws_ec2_instance_state.frontend ]
 }
@@ -94,7 +94,7 @@ resource "null_resource" "frontend_delete" {
 #target grp
 
 resource "aws_lb_target_group" "frontend" {
-  name     = "${var.project}-${var.env}-${var.common_tags}"
+  name     = "${var.project}-${var.env}-${var.common_tags.Component}"
   port     = 80
   protocol = "HTTPS"
   vpc_id   = data.aws_ssm_parameter.vpc_id.value
@@ -111,7 +111,7 @@ resource "aws_lb_target_group" "frontend" {
 #launch template
 
 resource "aws_launch_template" "frontend" {
-  name = "${var.project}-${var.env}-${var.common_tags}"
+  name = "${var.project}-${var.env}-${var.common_tags.Component}"
 
 
   capacity_reservation_specification {
@@ -128,7 +128,7 @@ resource "aws_launch_template" "frontend" {
   update_default_version = true #sets the latest version to default
 
 
-  vpc_security_group_ids = [data.aws_ssm_parameter.frontend_sg_id.value]
+  vpc_security_group_ids = [data.aws_ssm_parameter.allow_all_sg_id.value]
 
   tag_specifications {
     resource_type = "instance"
@@ -137,7 +137,7 @@ resource "aws_launch_template" "frontend" {
     tags = merge(
       var.common_tags,
       {
-        Name = "${var.project}-${var.env}-${var.common_tags}"
+        Name = "${var.project}-${var.env}-${var.common_tags.Component}"
 
       }
     )
@@ -146,7 +146,7 @@ resource "aws_launch_template" "frontend" {
   #auto scalling
 
 resource "aws_autoscaling_group" "frontend" {
-  name                      = "${var.project}-${var.env}-${var.common_tags}"
+  name                      = "${var.project}-${var.env}-${var.common_tags.Component}"
   max_size                  = 5
   min_size                  = 1
   health_check_grace_period = 60
@@ -171,7 +171,7 @@ resource "aws_autoscaling_group" "frontend" {
 
   tag {
     key                 = "Name"
-    value               = "${var.project}-${var.env}-${var.common_tags}"
+    value               = "${var.project}-${var.env}-${var.common_tags.Component}"
     propagate_at_launch = true
   }
 
@@ -190,7 +190,7 @@ resource "aws_autoscaling_group" "frontend" {
 #autoscalling policy
 
 resource "aws_autoscaling_policy" "frontend" {
-  name                   = "${var.project}-${var.env}-${var.common_tags}"
+  name                   = "${var.project}-${var.env}-${var.common_tags.Component}"
   policy_type = "TargetTrackingScaling"
   autoscaling_group_name = aws_autoscaling_group.frontend.name
 

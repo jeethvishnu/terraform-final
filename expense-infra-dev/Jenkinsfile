@@ -1,83 +1,47 @@
 pipeline {
     agent {
-        label 'agent-2'
+        label 'agent-1'
     }
 
     options {
-        timeout(time: 15, unit: 'MINUTES')
+        timeout(time: '15' , unit:'MINUTES' )
         disableConcurrentBuilds()
         ansiColor('xterm')
     }
 
+    environment {
+
+    }
+
     parameters {
-        choice(name: 'actions', choices: ['apply', 'destroy'], description: 'Pick something')
+        
     }
 
     stages {
         stage('init') {
             steps {
-                sh '''
-                    cd expense-infra-dev
-                    cd 01-vpc
-                    terraform init -reconfigure
-                '''
+                sh "
+                "
             }
         }
 
         stage('plan') {
-            when {
-                expression { params.actions == 'apply' }
-            }
             steps {
-                sh '''
-                    cd expense-infra-dev
-                    cd 01-vpc
-                    terraform plan
-                '''
-            }
-        }
-
-        stage('deploy') {
-            when {
-                expression { params.actions == 'apply' }
-            }
-            input {
-                message "Should we continue?"
-                ok "Yes, we should."
-            }
-            steps {
-                sh '''
-                    cd expense-infra-dev
-                    cd 01-vpc
-                    terraform apply -auto-approve
-                '''
-            }
-        }
-
-        stage('destroy') {
-            when {
-                expression { params.actions == 'destroy' }
-            }
-            steps {
-                sh '''
-                    cd expense-infra-dev
-                    cd 01-vpc
-                    terraform destroy -auto-approve
-                '''
+                sh "
+                "
             }
         }
     }
 
     post {
         always {
-            echo 'I will always say Hello again!'
-            deleteDir()
+
         }
         success {
-            echo 'Will run if it is successful'
+
         }
         failure {
-            echo 'Will run when it has failed'
+
         }
     }
 }

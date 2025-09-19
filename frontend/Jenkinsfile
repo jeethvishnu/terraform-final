@@ -42,10 +42,10 @@ pipeline {
                         nexusUrl: "${nexusurl}",
                         groupId: 'com.expense',
                         version: "${appVersion}",
-                        repository: "frontend-j",
+                        repository: "frontend",
                         credentialsId: 'nexus',
                         artifacts: [[
-                            artifactId: "frontend-j",
+                            artifactId: "frontend",
                             classifier: '',
                             file: "frontend-${appVersion}.zip",
                             type: 'zip'
@@ -55,16 +55,16 @@ pipeline {
             }
         }
 
-        // stage('downstream job deploy') {
-        //     steps {
-        //         script {
-        //             def params = [
-        //                 string(name: 'appversion', value: "${appVersion}")
-        //             ]
-        //             build job: 'frontend-deploy', parameters: params, wait: false
-        //         }
-        //     }
-        // }
+        stage('downstream job deploy') {
+            steps {
+                script {
+                    def params = [
+                        string(name: 'appversion', value: "${appVersion}")
+                    ]
+                    build job: 'frontend-deploy', parameters: params, wait: false
+                }
+            }
+        }
     }
 
     post {

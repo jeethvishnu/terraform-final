@@ -15,17 +15,7 @@ variable "common_tags" {
             Project = "expense"
             Env = "dev"
             Terraform = "true"
-            Component = "frontend"
 
     }
-  
-}
-
-variable "zone_name" {
-    default = "vjeeth.site"
-  
-}
-
-variable "appVersion" {
   
 }

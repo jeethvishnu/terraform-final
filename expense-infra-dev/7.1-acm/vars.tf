@@ -21,7 +21,7 @@ variable "common_tags" {
   
 }
 
-variable "zone_name" {
-    default = "vjeeth.site"
+variable "zone_id" {
+    default = "Z057740925CM7UN3IXNLN"
   
 }

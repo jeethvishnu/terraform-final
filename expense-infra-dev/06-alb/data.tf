@@ -1,5 +1,5 @@
-data "aws_ssm_parameter" "alb_sg_id" {
-  name = "/${var.project}-${var.env}/alb_sg_id"
+data "aws_ssm_parameter" "allow_all_sg_id" {
+  name = "/${var.project}/${var.env}/allow_all_sg_id"
 }
 
 data "aws_ssm_parameter" "private_subnet_ids" {

@@ -1,10 +1,10 @@
 #alb
 resource "aws_lb" "web_alb" {
-  name               = "${var.project}-${var.env}-web_alb"
+  name               = "${var.project}-${var.env}-web-alb"
   #private alb so keep true
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [data.aws_ssm_parameter.web_alb-sg_id.value]
+  security_groups    = [data.aws_ssm_parameter.allow_all_sg_id.value]
   subnets            =  split(",",data.aws_ssm_parameter.public_subnet_ids.value) #create in private subnet, for alb min 2 subnets
 
   enable_deletion_protection = false
@@ -24,7 +24,7 @@ resource "aws_lb" "web_alb" {
 
 resource "aws_lb_listener" "http" {
     #we are attatching our lb under lb arn
-  load_balancer_arn = aws_lb.alb.arn #replace with your lb name
+  load_balancer_arn = aws_lb.web_alb.arn #replace with your lb name
   port              = "80"
   protocol          = "HTTP" #for http no need of certifications
 
@@ -43,7 +43,7 @@ resource "aws_lb_listener" "http" {
 
 resource "aws_lb_listener" "https" {
     #we are attatching our lb under lb arn
-  load_balancer_arn = aws_lb.alb.arn #replace with your lb name
+  load_balancer_arn = aws_lb.web_alb.arn #replace with your lb name
   port              = "443"
   protocol          = "HTTPS" #for http no need of certifications
 

@@ -1,5 +1,5 @@
-data "aws_ssm_parameter" "bastion_sg_id" {
-  name = "/${var.project}/${var.env}/bastion_sg_id"
+data "aws_ssm_parameter" "allow_all" {
+  name = "/${var.project}/${var.env}/allow_all_sg_id"
 }
 
 data "aws_ssm_parameter" "public_subnet_ids" {
